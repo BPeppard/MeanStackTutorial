@@ -39,7 +39,7 @@ router.put('/posts/:post/upvote', function(req, res, next) {
 });
 
 router.post('/posts/:post/comments', function(req, res, next) {
-  var comment = new Comment(req.bod);
+  var comment = new Comment(req.body);
   comment.post = req.post;
   comment.save(function(err, comment) {
     if (err) {return next(err);}
@@ -49,6 +49,13 @@ router.post('/posts/:post/comments', function(req, res, next) {
       res.json(comment);
     });
   });
+});
+
+router.put('/posts/:post/comments/:comment/upvote', function(req, res, next) {
+  req.comment.upvote(function(err, comment) {
+    if (err) {return next(err);}
+    res.json(comment);
+  })
 });
 
 router.param('post', function(req, res, next, id) {
